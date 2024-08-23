@@ -15,9 +15,9 @@ template<class T>
 class List {
 private:
     Node<T>* head;
-
+    std::size_t size{};
 public:
-    List() : head(nullptr) {}
+    List() : head(nullptr) {++size;}
 
     ~List() {
         clear();
@@ -64,6 +64,7 @@ public:
             delete tmp;
         }
         head = nullptr;
+        --size;
     }
 
     List(std::initializer_list<T> init_list) : head(nullptr) {
@@ -76,6 +77,24 @@ public:
         Node<T>* new_node = new Node<T>(val);
         new_node->next = head;
         head = new_node;
+        ++size;
+    }
+    void pop_front() {
+        Node<T> *tmp = head;
+        head = head->next;
+        delete tmp;
+        --size;
+    }
+
+    bool empty() {
+        if (head) {
+            return true;
+        }
+        return false;
+    }
+
+    std::size_t max_size() const {
+        return size;
     }
 
     void print() const {
@@ -200,6 +219,3 @@ public:
 };
 
 } // namespace atlas
-
-//hello
-//World
